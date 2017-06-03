@@ -191,4 +191,10 @@ public class WeatherList extends AppCompatActivity implements YahooWeatherInfoLi
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        forcastAdapter.notifyDataSetChanged();
+    }
 }

@@ -6,7 +6,6 @@
     <string name="refresh">Refresh</string>
     <string name="metric_system">Select a Metric System</string>
 
-
     <string-array name="metricSystems">
         <item>Degree Celsius</item>
         <item>Fahrenheit</item>
