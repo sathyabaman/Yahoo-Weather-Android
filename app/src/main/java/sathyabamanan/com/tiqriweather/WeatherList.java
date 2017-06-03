@@ -39,6 +39,7 @@ public class WeatherList extends AppCompatActivity implements YahooWeatherInfoLi
 
     @Override
     public void gotWeatherInfo(final WeatherInfo weatherInfo, YahooWeather.ErrorType errorType) {
+        forcastAarrayList.clear();
         if (errorType == null) {
             int forcastSize = weatherInfo.getForecastInfoList().size();
 
