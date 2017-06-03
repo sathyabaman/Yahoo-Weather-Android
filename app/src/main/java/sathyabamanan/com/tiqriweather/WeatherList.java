@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
 
 import sathyabamanan.com.tiqriweather.Common.CustomUtility;
 import sathyabamanan.com.tiqriweather.DataObjects.ForcastModel;
@@ -97,6 +98,7 @@ public class WeatherList extends AppCompatActivity implements YahooWeatherInfoLi
             case R.id.menu_refresh:
                 break;
             case R.id.menu_maps:
+                showCityList();
                 break;
             case R.id.menu_settings:
                 break;
@@ -107,4 +109,30 @@ public class WeatherList extends AppCompatActivity implements YahooWeatherInfoLi
     }
 
 
+
+    private void showCityList()  {
+        final ArrayAdapter<String> citys = new ArrayAdapter<String>(WeatherList.this, android.R.layout.select_dialog_singlechoice);
+        citys.add("colombo");
+        citys.add("Matara");
+        citys.add("Kandy");
+
+        AlertDialog.Builder builderSingle = new AlertDialog.Builder(WeatherList.this);
+        builderSingle.setIcon(R.drawable.maps);
+        builderSingle.setTitle("Select a city");
+
+        builderSingle.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        builderSingle.setAdapter(citys, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                searchByPlaceName(citys.getItem(which));
+            }
+        });
+        builderSingle.show();
+    }
 }
