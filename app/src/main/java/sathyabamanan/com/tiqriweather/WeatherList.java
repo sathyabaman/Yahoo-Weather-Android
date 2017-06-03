@@ -2,16 +2,24 @@ package sathyabamanan.com.tiqriweather;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.os.Looper;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.AttributeSet;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
 import sathyabamanan.com.tiqriweather.Common.CustomUtility;
 import sathyabamanan.com.tiqriweather.DataObjects.ForcastModel;
+import sathyabamanan.com.tiqriweather.DataObjects.WeatherAdapter;
 import zh.wang.android.yweathergetter4a.WeatherInfo;
 import zh.wang.android.yweathergetter4a.YahooWeather;
 import zh.wang.android.yweathergetter4a.YahooWeatherInfoListener;
@@ -19,10 +27,18 @@ import zh.wang.android.yweathergetter4a.YahooWeatherInfoListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Handler;
+import java.util.logging.LogRecord;
+
+import static java.security.AccessController.getContext;
 
 public class WeatherList extends AppCompatActivity implements YahooWeatherInfoListener {
 
 
+
+    private RecyclerView recycleV_forcast;
+    private RecyclerView.LayoutManager layoutManager;
+    public static WeatherAdapter forcastAdapter;
     Context context;
     private YahooWeather mYahooWeather = YahooWeather.getInstance(5000, true);
 
@@ -35,7 +51,20 @@ public class WeatherList extends AppCompatActivity implements YahooWeatherInfoLi
         context = getApplicationContext();
 
         searchByPlaceName("colombo");
+        SetupView();
     }
+
+
+    private void SetupView(){
+        recycleV_forcast = (RecyclerView) findViewById (R.id.recV_weatherlist);
+        // recycleV_forcast.addItemDecoration(new SimpleDividerItemDecoration(getContext()));
+        layoutManager = new LinearLayoutManager(context);
+        recycleV_forcast.setLayoutManager(layoutManager);
+        forcastAdapter = new WeatherAdapter(context, forcastAarrayList);
+        recycleV_forcast.setAdapter(forcastAdapter);
+
+    }
+
 
     @Override
     public void gotWeatherInfo(final WeatherInfo weatherInfo, YahooWeather.ErrorType errorType) {
@@ -55,6 +84,7 @@ public class WeatherList extends AppCompatActivity implements YahooWeatherInfoLi
                     fmodel.ForecastText             = weatherInfo.getForecastInfoList().get(y).getForecastText();
                     forcastAarrayList.add(fmodel);
                 }
+                forcastAdapter.notifyDataSetChanged();
             } else { showErrorMessage("No Forecast!", "No forecast available for the city"); }
         }
     }
@@ -65,7 +95,6 @@ public class WeatherList extends AppCompatActivity implements YahooWeatherInfoLi
         mYahooWeather.setSearchMode(YahooWeather.SEARCH_MODE.PLACE_NAME);
         mYahooWeather.queryYahooWeatherByPlaceName(getApplicationContext(), location, WeatherList.this);
     }
-
 
 
 
