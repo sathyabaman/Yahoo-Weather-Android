@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">TiQRI weather</string>
     <string name="tiqri_weather_app">TiQRI Weather App</string>
+    <string name="settings">Settings</string>
+    <string name="maps">Maps</string>
+    <string name="refresh">Refresh</string>
 </resources>
