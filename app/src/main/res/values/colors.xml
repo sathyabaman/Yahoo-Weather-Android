@@ -4,4 +4,5 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="tiqri_green">#93c141</color>
+    <color name="ash_color">#7c7878</color>
 </resources>

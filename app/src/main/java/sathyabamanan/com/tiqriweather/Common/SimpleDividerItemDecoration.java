@@ -1,5 +1,11 @@
 package sathyabamanan.com.tiqriweather.Common;
 
+
+
+
+/**
+ * Created by baman on 6/3/17.
+ */
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
@@ -7,18 +13,14 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import sathyabamanan.com.tiqriweather.R;
 
-
-
-/**
- * Created by baman on 6/3/17.
- */
 
 public class SimpleDividerItemDecoration extends RecyclerView.ItemDecoration {
     private Drawable mDivider;
 
     public SimpleDividerItemDecoration(Context context) {
-       // mDivider = ContextCompat.getDrawable(context, R.drawable.line_divider);
+        mDivider = ContextCompat.getDrawable(context, R.drawable.line_divider);
     }
 
     @Override

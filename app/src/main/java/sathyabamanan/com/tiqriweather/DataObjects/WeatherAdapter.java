@@ -37,7 +37,7 @@ public class WeatherAdapter extends RecyclerView.Adapter<WeatherViewHolders> {
 
     @Override
     public void onBindViewHolder(WeatherViewHolders holder, int position) {
-        holder.temperature.setText(String.valueOf(forcasts.get(position).ForecastTempHigh));
+        holder.temperature.setText(String.valueOf(forcasts.get(position).ForecastTempHigh)+"°");
         Picasso.with(context).load(forcasts.get(position).ForecastConditionIconURL).resize(30, 30).into(holder.weatherImage);
         holder.message.setText(forcasts.get(position).ForecastText);
         holder.cus_date.setText(forcasts.get(position).ForecastDate);

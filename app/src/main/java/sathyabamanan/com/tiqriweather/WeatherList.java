@@ -2,6 +2,8 @@ package sathyabamanan.com.tiqriweather;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Looper;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -18,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
 import sathyabamanan.com.tiqriweather.Common.CustomUtility;
+import sathyabamanan.com.tiqriweather.Common.SimpleDividerItemDecoration;
 import sathyabamanan.com.tiqriweather.DataObjects.ForcastModel;
 import sathyabamanan.com.tiqriweather.DataObjects.WeatherAdapter;
 import zh.wang.android.yweathergetter4a.WeatherInfo;
@@ -51,13 +54,14 @@ public class WeatherList extends AppCompatActivity implements YahooWeatherInfoLi
         context = getApplicationContext();
 
         searchByPlaceName("colombo");
+        new CustomUtility().savecurrentCity("colombo", context);
         SetupView();
     }
 
 
     private void SetupView(){
         recycleV_forcast = (RecyclerView) findViewById (R.id.recV_weatherlist);
-        // recycleV_forcast.addItemDecoration(new SimpleDividerItemDecoration(getContext()));
+        recycleV_forcast.addItemDecoration(new SimpleDividerItemDecoration(context));
         layoutManager = new LinearLayoutManager(context);
         recycleV_forcast.setLayoutManager(layoutManager);
         forcastAdapter = new WeatherAdapter(context, forcastAarrayList);
@@ -68,10 +72,10 @@ public class WeatherList extends AppCompatActivity implements YahooWeatherInfoLi
 
     @Override
     public void gotWeatherInfo(final WeatherInfo weatherInfo, YahooWeather.ErrorType errorType) {
-        forcastAarrayList.clear();
-        if (errorType == null) {
-            int forcastSize = weatherInfo.getForecastInfoList().size();
 
+        if (errorType == null) {
+            forcastAarrayList.clear();
+            int forcastSize = weatherInfo.getForecastInfoList().size();
             if (forcastSize > 0){
                 for (int y=0; y< forcastSize; y++){
                     ForcastModel fmodel = new ForcastModel();
@@ -90,10 +94,17 @@ public class WeatherList extends AppCompatActivity implements YahooWeatherInfoLi
     }
 
     private void searchByPlaceName(String location) {
-        mYahooWeather.setNeedDownloadIcons(true);
-        mYahooWeather.setUnit(YahooWeather.UNIT.CELSIUS);
-        mYahooWeather.setSearchMode(YahooWeather.SEARCH_MODE.PLACE_NAME);
-        mYahooWeather.queryYahooWeatherByPlaceName(getApplicationContext(), location, WeatherList.this);
+        if (isNetworkAvailable()) {
+            try {
+                forcastAarrayList.clear();
+                forcastAdapter.notifyDataSetChanged();
+            } catch (Exception e){e.printStackTrace();}
+
+            mYahooWeather.setNeedDownloadIcons(true);
+            mYahooWeather.setUnit(YahooWeather.UNIT.CELSIUS);
+            mYahooWeather.setSearchMode(YahooWeather.SEARCH_MODE.PLACE_NAME);
+            mYahooWeather.queryYahooWeatherByPlaceName(getApplicationContext(), location, WeatherList.this);
+        } else {showErrorMessage("No connectivity!", "Please check your internet connection");}
     }
 
 
@@ -126,6 +137,7 @@ public class WeatherList extends AppCompatActivity implements YahooWeatherInfoLi
         int menu_id = item.getItemId();
         switch (menu_id){
             case R.id.menu_refresh:
+                searchByPlaceName(new CustomUtility().getCurrentCity(context));
                 break;
             case R.id.menu_maps:
                 showCityList();
@@ -145,6 +157,9 @@ public class WeatherList extends AppCompatActivity implements YahooWeatherInfoLi
         citys.add("colombo");
         citys.add("Matara");
         citys.add("Kandy");
+        citys.add("Jaffna");
+        citys.add("Kilinochchi");
+        citys.add("Vavuniya");
 
         AlertDialog.Builder builderSingle = new AlertDialog.Builder(WeatherList.this);
         builderSingle.setIcon(R.drawable.maps);
@@ -160,9 +175,18 @@ public class WeatherList extends AppCompatActivity implements YahooWeatherInfoLi
         builderSingle.setAdapter(citys, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                getSupportActionBar().setTitle(citys.getItem(which).toString());
+                new CustomUtility().savecurrentCity(citys.getItem(which).toString(), context);
                 searchByPlaceName(citys.getItem(which));
             }
         });
         builderSingle.show();
+    }
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 }

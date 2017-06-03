@@ -9,12 +9,12 @@
         android:text="TextView"
         android:id="@+id/cus_temperature"
         tools:text="12°"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display2"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         android:layout_height="50dp"
-        android:layout_width="70dp"
-        android:layout_marginLeft="10dp"
+        android:layout_marginLeft="2dp"
         android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp" />
+        android:layout_marginBottom="5dp"
+        android:layout_width="60dp" />
 
     <ImageView
         app:srcCompat="@drawable/wrong_icon"
@@ -23,27 +23,30 @@
         android:id="@+id/cus_image"
         android:layout_height="30dp"
         android:layout_width="30dp"
-        android:layout_margin="5dp" />
+        android:layout_margin="8dp" />
 
     <TextView
         android:text="TextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/cus_message"
-        android:layout_alignParentEnd="true"
-        android:id="@+id/cus_date"
-        android:textAppearance="@style/TextAppearance.AppCompat.Title"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="10dp" />
-
-    <TextView
-        android:text="TextView"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/cus_message"
-        android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Title"
-        android:layout_alignBottom="@+id/cus_image"
-        android:layout_toEndOf="@+id/cus_image"
+        android:textAppearance="@style/TextAppearance.AppCompat.Widget.ActionMode.Subtitle"
         android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp" />
+        android:layout_marginRight="5dp"
+        android:layout_width="160dp"
+        android:layout_alignBaseline="@+id/cus_temperature"
+        android:layout_alignBottom="@+id/cus_temperature"
+        android:layout_toEndOf="@+id/cus_image" />
+
+    <TextView
+        android:text="TextView"
+        android:layout_height="wrap_content"
+        android:id="@+id/cus_date"
+        android:textAppearance="@style/TextAppearance.AppCompat.Widget.ActionMode.Subtitle"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="5dp"
+        android:layout_alignBaseline="@+id/cus_message"
+        android:layout_alignBottom="@+id/cus_message"
+        android:layout_alignParentEnd="true"
+        android:layout_width="85dp"
+        android:textSize="14sp" />
 </RelativeLayout>
