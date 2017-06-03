@@ -29,4 +29,15 @@ public class CustomUtility {
         editor.putString("cityName", cityName);
         editor.commit();
     }
+
+    public void saveMetricsytem(String systemName, Context context){
+        SharedPreferences.Editor editor =  context.getSharedPreferences("tiqriweatherpreferences", MODE_PRIVATE).edit();
+        editor.putString("metricSystem", systemName);
+        editor.commit();
+    }
+
+    public String getCurrentMetricsytem(Context context){
+        SharedPreferences prefs = context.getSharedPreferences("tiqriweatherpreferences", MODE_PRIVATE);
+        return prefs.getString("metricSystem", "no_matric");
+    }
 }

@@ -2,6 +2,7 @@ package sathyabamanan.com.tiqriweather;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Looper;
@@ -143,6 +144,7 @@ public class WeatherList extends AppCompatActivity implements YahooWeatherInfoLi
                 showCityList();
                 break;
             case R.id.menu_settings:
+                startActivity(new Intent(WeatherList.this, Settings.class));
                 break;
             default:
                 break;
