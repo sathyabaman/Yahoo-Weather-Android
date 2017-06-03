@@ -21,7 +21,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".WeatherList" />
-        <activity android:name=".Settings"></activity>
+        <activity android:name=".Settings"
+            android:label="Settings"></activity>
     </application>
 
 </manifest>
